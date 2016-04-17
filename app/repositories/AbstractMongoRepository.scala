@@ -1,0 +1,63 @@
+package repositories
+
+import scala.annotation.implicitNotFound
+import scala.concurrent.ExecutionContext
+import scala.concurrent.Future
+import models.JsonModel
+import play.api.libs.json.Format
+import play.api.libs.json.JsObject
+import play.api.libs.json.Json
+import play.api.libs.json.Json.toJsFieldJsValueWrapper
+import play.api.libs.json.OWrites
+import play.modules.reactivemongo.ReactiveMongoApi
+import play.modules.reactivemongo.ReactiveMongoComponents
+import play.modules.reactivemongo.json.JsObjectDocumentWriter
+import reactivemongo.api.QueryOpts
+import reactivemongo.api.ReadPreference
+import reactivemongo.api.commands.WriteResult
+import reactivemongo.play.json.collection.JSONCollection
+import play.api.Logger
+import play.modules.reactivemongo.json._
+
+abstract class AbstractMongoRepository[T](val reactiveMongoApi: ReactiveMongoApi) extends ReactiveMongoComponents {
+
+  val model: JsonModel[T]
+  val colName: String
+  implicit lazy val format: Format[T] = model.format
+
+  protected def collection =
+    reactiveMongoApi.db.collection[JSONCollection](colName)
+
+  def create(data: T)(implicit ec: ExecutionContext): Future[T] = {
+    val o: JsObject = Json.toJson(data).as[JsObject]
+    collection.insert(o).map(lastError => {
+      Logger.info("Mongo LastError: %s".format(lastError))
+      data
+    })
+  }
+
+  def delete(data: T)(implicit ec: ExecutionContext): Future[T] = {
+    val o: JsObject = Json.toJson(data).as[JsObject]
+    collection.remove(o).map(lastError => {
+      Logger.info("Mongo LastError: %s".format(lastError))
+      data
+    })
+  }
+
+  def find(jsobj: JsObject, pageNumber: Int, numberPerPage: Int)(implicit ec: ExecutionContext): Future[List[T]] =
+    collection.find(jsobj).
+      sort(Json.obj("$natural" -> -1)).
+      options(QueryOpts((pageNumber - 1) * numberPerPage, numberPerPage)).
+      cursor[T](ReadPreference.Primary).
+      collect[List](numberPerPage)
+
+  def all(jsobj: JsObject)(implicit ec: ExecutionContext): Future[List[T]] =
+    collection.find(jsobj).
+      sort(Json.obj("$natural" -> -1)).
+      cursor[T](ReadPreference.Primary).
+      collect[List]()
+
+  def count(jsobj: Option[JsObject])(implicit ec: ExecutionContext): Future[Int] =
+    collection.count(jsobj)
+
+}
