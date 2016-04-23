@@ -11,7 +11,7 @@ case class Shop(
   name: Option[String],
   address: Option[String],
   location: Option[String])
-
+  
 object ShopJsonModel extends JsonModel[Shop] {
   val format = Json.format[Shop]
 }
