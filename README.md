@@ -9,7 +9,7 @@ Estamos utilizando:
 - Logback como sistema de logging
 - ScalaTest + Spec2 para testing
 
-## Requisitos para levantar la apliación
+## Requisitos para levantar la aplicación
 
 Se requiere:
 - MongoDB
@@ -22,9 +22,13 @@ En el root del proyecto tenemos un binario que permite compilar, testear, levant
 ### Pasos para probar la aplicación
 
 1) Parado en el root del proyecto ejecutar `activator`. La primera vez demora porque se baja muchas dependencias del activator. Al terminar abre una consola.
+
 2) Si es la primera vez conviene ejecutar `compile`, para que compile varios archivos y genere código para algunos otros. En este momento también puede bajar dependencias de nuestro proyecto.
+
 3) Si se va a trabajar con eclipse, ejecutar `eclipse`. Eso genera los archivos de proyecto de eclipse. Luego desde eclipse importarlo como un proyecto existente.
+
 4) En este punto puede levantarse la aplicación en como desarollo ejecutando `run`. El activator revisa cambios en el código cuando la aplicación recibe peticiones, y recompila ciertas partes en caso de ser necesario.
+
 5) El run congela la consola del activator. Para volver a la consola presionar `CTRL+D`.
 
 Opcionalmente pueden correrse tests con el comando `test`.
