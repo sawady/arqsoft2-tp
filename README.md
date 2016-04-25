@@ -13,7 +13,7 @@ Estamos utilizando:
 
 Se requiere:
 - MongoDB
-- Java 8+ (que *javac* sea accesible desde la consola en donde se utilizar el activator)
+- Java 8+ (que *javac* sea accesible desde la consola en donde se va a utilizar el activator)
 
 ## Activator
 
