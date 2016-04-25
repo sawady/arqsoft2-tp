@@ -1,0 +1,2 @@
+web: target/universal/stage/bin/arqsof2-tp -Dhttp.port=${PORT} ${java_opts} -DapplyEvolutions.default=true -J-javaagent:lib/newrelic.jar -J-Dnewrelic.config.file=lib/newrelic.yml
+console: target/universal/stage/bin/arqsof2-tp -main scala.tools.nsc.MainGenericRunner -usejavacp
