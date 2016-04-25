@@ -48,7 +48,7 @@ abstract class AbstractController[T] extends Controller {
     repository.all(Json.obj()).map { x => Ok(Json.toJson(x)) }
   }
   
-  protected def find(page: Int, perPage: Int) = Action.async { request =>
+  def find(page: Int, perPage: Int) = Action.async { request =>
     repository.find(Json.obj(), page, perPage).map { x => Ok(Json.toJson(x)) }
   }
 
