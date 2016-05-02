@@ -4,17 +4,17 @@ import scala.concurrent.Future
 import javax.inject.Inject
 import play.api.mvc.Action
 import play.api.mvc.Controller
-import repositories.ShopRepository
+import repositories.ProductRepository
 import play.api.libs.json.JsValue
-import models.Shop
+import models.Product
 import play.api.libs.json.Json
-import models.ShopJsonModel
+import models.ProductJsonModel
 import play.api.libs.json.Format
 import play.api.libs.json.OWrites
 import play.api.http.Writeable
 
-class ShopController @Inject() (val shopRepository: ShopRepository) extends AbstractController[Shop] {
+class ProductController @Inject() (val productRepository: ProductRepository) extends AbstractController[Product] {
   
-  override val repository = shopRepository
+  override val repository = productRepository
   
 }

@@ -1,4 +1,4 @@
-package controllers
+package app.controllers
 
 import repositories.AbstractMongoRepository
 import play.api.libs.json.JsValue
