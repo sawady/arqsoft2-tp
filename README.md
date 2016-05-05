@@ -33,11 +33,39 @@ En el root del proyecto tenemos un binario que permite compilar, testear, levant
 
 Opcionalmente pueden correrse tests con el comando `test`.
 
-### (Opcional) Empaquetado de la aplicación
+### Empaquetado de la aplicación
 
 El activator es capaz de generar un empaquetado deployable con el comando `dist`. Eso genera un archivo ejecutable que contiene un servidor para nuestra aplicación, y guarda en distintas carpetas todos los jars, código y assets necesarios. La aplicación luego puede deployarse en cualquier servidor que posea los requisitos antes mencionados.
 
+Luego en la carpeta `target/universal/<app-name>-<version>.zip` tenemos la aplicación zipeada.
+
+Para correrla podemos hacer `unzip target/universal/<app-name>-<version>.zip`.
+
+Para ejecutarla alcanza con ir hasta dicha ruta y en la carpeta `bin` ejecutar la aplicación como con cualquier binario (linux o windows).
+
 En Heroku no estamos usando esto, porque ya trae un contenedor que permite deployar la aplicación Play directamente.
+
+## Docker
+
+Hicimos un DockerFile que se basa en la imagen `beevelop/java:latest`.
+
+1) Crear la imagen con `docker build -t arq2/play:v1 .`
+
+2) `activator dist` (desde la ruta del proyecto).
+
+3) `unzip ./target/universal/arqsof2-tp-*.zip`
+
+4) `mv arqsof2-tp-*/ ./target/build-dev/`
+
+5) `docker run -v /home/vm/Escritorio/arqsoft2-tp/target/build-dev:/opt/app -p 9000:9000 --rm arq2/play:v1 /opt/app/bin/arqsof2-tp`
+
+## Ambiente de desarrollo
+
+Estamos utilizando el Scala IDE 4.4.0, JDK 8 y MongoDB 3.0.
+
+Para importar el proyecto primero corremos `activator eclipse` desde la ruta del proyecto, y luego importamos el mismo desde eclipse con `import as existing proyect`.
+
+Testeado en Linx Mint 17.3, Ubuntu 14.04, Windows 7 y Windows 10.
 
 ## Arquitectura de la aplicación:
 
