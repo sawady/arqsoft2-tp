@@ -47,17 +47,26 @@ En Heroku no estamos usando esto, porque ya trae un contenedor que permite deplo
 
 ## Docker
 
-Hicimos un DockerFile que se basa en la imagen `beevelop/java:latest`.
+### Contenedor MongoDB
 
-1) Crear la imagen con `docker build -t arq2/play:v1 .`
+La base de datos con mongo corre en su propio contenedor. Primero ejecutar esto antes de correr el contenedor de play.
 
-2) `activator dist` (desde la ruta del proyecto).
+Armarlo con los siguientes pasos:
 
-3) `unzip ./target/universal/arqsof2-tp-*.zip`
+1) `docker pull mongo`
+2) `docker run --name mongo-play -d mongo`
 
-4) `mv arqsof2-tp-*/ ./target/build-dev/`
+### Contenedor Play
 
-5) `docker run -v /home/vm/Escritorio/arqsoft2-tp/target/build-dev:/opt/app -p 9000:9000 --rm arq2/play:v1 /opt/app/bin/arqsof2-tp`
+Se basa en la imagen `beevelop/java:latest`.
+
+1) `./activator dist` (desde la ruta del proyecto).
+
+2) `unzip ./target/universal/arqsof2-tp-*.zip`
+
+3) `rm -rf ./target/build-dev && mv arqsof2-tp-*/ ./target/build-dev/`
+
+4) `docker run -v /home/vm/Escritorio/arqsoft2-tp/target/build-dev:/opt/app -p 9000:9000 --name play-server --link play-mongo:mongo --rm beevelop/java:latest /opt/app/bin/arqsof2-tp -Dconfig.resource=application-docker.conf`
 
 ## Ambiente de desarrollo
 
