@@ -54,7 +54,9 @@ La base de datos con mongo corre en su propio contenedor. Primero ejecutar esto 
 Armarlo con los siguientes pasos:
 
 1) `docker pull mongo`
-2) `docker run --name mongo-play -d mongo`
+2) `docker run --name play-mongo -d mongo`
+
+Para parar el contenedor `docker stop play-mongo`, y para eliminarlo `docker rm play-mongo`.
 
 ### Contenedor Play
 
