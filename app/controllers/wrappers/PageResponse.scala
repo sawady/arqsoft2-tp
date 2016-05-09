@@ -1,18 +1,12 @@
 package controllers.models
 
 case class PageResponse[T] (
-   data: List[T],
-   per_page: Int,
-   page_count: Int,
-   current_page: Int,
-   total_data_count: Int,
-   links: PageLinks
+   items: List[T],
+   links: Paging
 )
 
-case class PageLinks (
-   first: String,
-   prev: Option[String],
-   current: String,
-   next: Option[String],
-   last: String    
+case class Paging (
+   offset: Int,
+   limit: Int,
+   Total: Int
 )

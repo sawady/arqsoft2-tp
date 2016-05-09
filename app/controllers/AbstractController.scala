@@ -14,6 +14,7 @@ import play.api.libs.json.Json
 import play.api.http.Writeable
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import play.modules.reactivemongo.json._
+import play.api.Logger
 
 abstract class AbstractController[T] extends Controller {
 
@@ -36,7 +37,7 @@ abstract class AbstractController[T] extends Controller {
 
   def create(): Action[JsValue] = ModelEndpoint {
     model =>
-      repository.create(model).map { x => Ok(Json.toJson(x)) }
+      Logger.info("ENTRE CREATE"); repository.create(model).map { x => Ok(Json.toJson(x)) }
   }
 
   def delete(): Action[JsValue] = ModelEndpoint {
@@ -44,12 +45,14 @@ abstract class AbstractController[T] extends Controller {
       repository.delete(model).map { x => Ok(Json.toJson(x)) }
   }
 
-  def all() = Action.async { request =>
-    repository.all(Json.obj()).map { x => Ok(Json.toJson(x)) }
+  def all() = Action.async { 
+    request =>
+      repository.all(Json.obj()).map { x => Ok(Json.toJson(x)) }
   }
   
-  def find(page: Int, perPage: Int) = Action.async { request =>
-    repository.find(Json.obj(), page, perPage).map { x => Ok(Json.toJson(x)) }
+  def find(offset: Int, limit: Int) = Action.async { 
+    request =>
+      Logger.info("ENTRE FIND"); repository.find(Json.obj(), offset, limit).map { x => Ok(Json.toJson(x)) }
   }
 
 }
