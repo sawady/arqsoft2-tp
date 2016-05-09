@@ -6,7 +6,7 @@ import play.api.libs.json._
 import org.joda.time.DateTime
 
 case class Price(
-	_id: BSONObjectID,
+	_id: Option[BSONObjectID],
 	product_id : BSONObjectID,
 	product : Option[Product],
 	shop_id: BSONObjectID,

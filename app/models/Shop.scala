@@ -5,7 +5,7 @@ import reactivemongo.play.json.BSONFormats._
 import play.api.libs.json._
 
 case class Shop(
-  _id: BSONObjectID,
+  _id: Option[BSONObjectID],
   latitude: Option[Double],
   longitude: Option[Double],
   name: Option[String],
