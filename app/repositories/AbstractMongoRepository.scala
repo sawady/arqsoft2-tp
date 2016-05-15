@@ -3,7 +3,7 @@ package repositories
 import scala.annotation.implicitNotFound
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
-import models.JsonModel
+import app.formatters.JsonModel
 import play.api.libs.json.Format
 import play.api.libs.json.JsObject
 import play.api.libs.json.Json

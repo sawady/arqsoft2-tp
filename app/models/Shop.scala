@@ -1,5 +1,6 @@
 package models
 
+import app.formatters.JsonModel
 import reactivemongo.bson.BSONObjectID
 import reactivemongo.play.json.BSONFormats._
 import play.api.libs.json._

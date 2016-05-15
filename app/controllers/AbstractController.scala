@@ -1,6 +1,8 @@
 package app.controllers
 
 import repositories.AbstractMongoRepository
+import controllers.wrappers.PageResponse
+import controllers.wrappers.Paging
 import play.api.libs.json.JsValue
 import scala.concurrent.Future
 import play.api.mvc.Action
@@ -37,7 +39,7 @@ abstract class AbstractController[T] extends Controller {
 
   def create(): Action[JsValue] = ModelEndpoint {
     model =>
-      Logger.info("ENTRE CREATE"); repository.create(model).map { x => Ok(Json.toJson(x)) }
+      repository.create(model).map { x => Ok(Json.toJson(x)) }
   }
 
   def delete(): Action[JsValue] = ModelEndpoint {
@@ -52,7 +54,21 @@ abstract class AbstractController[T] extends Controller {
   
   def find(offset: Int, limit: Int) = Action.async { 
     request =>
-      Logger.info("ENTRE FIND"); repository.find(Json.obj(), offset, limit).map { x => Ok(Json.toJson(x)) }
+      for {
+          items <- repository.find(Json.obj(), offset, limit)
+          total <- repository.count(Some(Json.obj()))
+      } yield {
+          var paging = new Paging(offset, limit, total)
+          Ok(Json.toJson(PageResponse(items.map(Json.toJson), paging)))
+      }
+        
+      /*
+      var items = repository.find(Json.obj(), offset, limit).map { x => Ok(Json.toJson(x)) }
+      var total = repository.count(Some(Json.obj())).map { x => Ok(x) }
+      var paging = new Paging(offset, limit, total)
+      new PageResponse[T](items, paging)
+      */
+      
   }
 
 }
