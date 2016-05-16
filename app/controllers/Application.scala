@@ -11,5 +11,9 @@ class Application extends Controller {
   def index = Action {
     Ok(views.html.index("Your new application is ready."))
   }
+  
+  def loaderio = Action {
+    Ok("loaderio-b4731e74072dccfec4b1daac7b16ec60")
+  }
 
 }
