@@ -3,7 +3,7 @@ package repositories
 import scala.annotation.implicitNotFound
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
-import models.JsonModel
+import app.formatters.JsonModel
 import play.api.libs.json.Format
 import play.api.libs.json.JsObject
 import play.api.libs.json.Json
@@ -44,12 +44,12 @@ abstract class AbstractMongoRepository[T](val reactiveMongoApi: ReactiveMongoApi
     })
   }
 
-  def find(jsobj: JsObject, pageNumber: Int, numberPerPage: Int)(implicit ec: ExecutionContext): Future[List[T]] =
+  def find(jsobj: JsObject, offset: Int, limit: Int)(implicit ec: ExecutionContext): Future[List[T]] =
     collection.find(jsobj).
       sort(Json.obj("$natural" -> -1)).
-      options(QueryOpts((pageNumber - 1) * numberPerPage, numberPerPage)).
+      options(QueryOpts((offset - 1) * limit, limit)).
       cursor[T](ReadPreference.Primary).
-      collect[List](numberPerPage)
+      collect[List](limit)
 
   def all(jsobj: JsObject)(implicit ec: ExecutionContext): Future[List[T]] =
     collection.find(jsobj).

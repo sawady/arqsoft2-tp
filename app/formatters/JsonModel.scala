@@ -1,4 +1,4 @@
-package models
+package app.formatters
 
 import play.api.libs.json.Format
 

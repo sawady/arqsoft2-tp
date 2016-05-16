@@ -3,7 +3,7 @@ package repositories
 import javax.inject.Inject
 import play.modules.reactivemongo.ReactiveMongoApi
 import models.Price
-import models.JsonModel
+import app.formatters.JsonModel
 import play.api.libs.json.Json
 import models.PriceJsonModel
 import javax.inject.Singleton

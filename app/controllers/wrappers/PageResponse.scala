@@ -1,18 +1,25 @@
-package controllers.models
+package controllers.wrappers
 
-case class PageResponse[T] (
-   data: List[T],
-   per_page: Int,
-   page_count: Int,
-   current_page: Int,
-   total_data_count: Int,
-   links: PageLinks
+import play.api.libs.json._
+import app.formatters.JsonModel
+
+
+case class Paging (
+   offset: Int,
+   limit: Int,
+   total: Int
 )
 
-case class PageLinks (
-   first: String,
-   prev: Option[String],
-   current: String,
-   next: Option[String],
-   last: String    
+case class PageResponse (
+   items: List[JsValue],
+   links: Paging
 )
+
+object PagingJsonModel extends JsonModel[Paging] {
+  val format = Json.format[Paging]
+}
+
+object PageResponseJsonModel extends JsonModel[PageResponse] {
+    implicit val pagingFormat = Json.format[Paging]
+    val format = Json.format[PageResponse]
+}
