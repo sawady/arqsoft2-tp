@@ -18,6 +18,9 @@ import reactivemongo.api.commands.WriteResult
 import reactivemongo.play.json.collection.JSONCollection
 import play.api.Logger
 import play.modules.reactivemongo.json._
+import play.api.libs.json._
+import reactivemongo.bson.BSONObjectID
+import com.sun.corba.se.spi.ior.ObjectId
 
 abstract class AbstractMongoRepository[T](val reactiveMongoApi: ReactiveMongoApi) extends ReactiveMongoComponents {
 
@@ -27,13 +30,17 @@ abstract class AbstractMongoRepository[T](val reactiveMongoApi: ReactiveMongoApi
 
   protected def collection =
     reactiveMongoApi.db.collection[JSONCollection](colName)
-
+   
   def create(data: T)(implicit ec: ExecutionContext): Future[T] = {
-    val o: JsObject = Json.toJson(data).as[JsObject]
-    collection.insert(o).map(lastError => {
-      Logger.info("Mongo LastError: %s".format(lastError))
-      data
-    })
+    val idObject: JsObject = Json.obj("_id" -> BSONObjectID.generate)
+    val o: JsObject = Json.toJson(data).as[JsObject] ++ idObject 
+    for {
+        _ <- collection.insert(o).map(lastError => {
+            Logger.info("Mongo LastError: %s".format(lastError))
+        })
+        res <- collection.find(idObject).cursor[T](ReadPreference.Primary).headOption
+    }
+    yield(res.get)
   }
 
   def delete(data: T)(implicit ec: ExecutionContext): Future[T] = {
@@ -50,6 +57,10 @@ abstract class AbstractMongoRepository[T](val reactiveMongoApi: ReactiveMongoApi
       options(QueryOpts((offset - 1) * limit, limit)).
       cursor[T](ReadPreference.Primary).
       collect[List](limit)
+
+  def getById(jsObjectId: JsObject)(implicit ec: ExecutionContext): Future[Option[T]] = {
+      collection.find(jsObjectId).cursor[T](ReadPreference.Primary).headOption
+  }
 
   def all(jsobj: JsObject)(implicit ec: ExecutionContext): Future[List[T]] =
     collection.find(jsobj).

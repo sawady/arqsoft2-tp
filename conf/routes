@@ -8,6 +8,7 @@ GET    /               controllers.Application.index
 # Shop Resource
 POST   /shops          app.controllers.ShopController.create()
 GET    /shops          app.controllers.ShopController.find(offset: Int ?= 1, limit: Int ?= 20)
+GET    /shops/:id          app.controllers.ShopController.findById(id: String)
 
 # Product Resource
 POST   /products       app.controllers.ProductController.create()

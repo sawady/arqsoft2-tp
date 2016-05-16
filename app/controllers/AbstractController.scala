@@ -16,14 +16,16 @@ import play.api.libs.json.Json
 import play.api.http.Writeable
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import play.modules.reactivemongo.json._
+import play.api.libs.json._
 import play.api.Logger
 import controllers.wrappers.PageResponseJsonModel
 import controllers.wrappers.PagingJsonModel
 import play.api.libs.json.JsObject
 import play.api.mvc.Request
 import play.api.mvc.AnyContent
+import traits.WithId
 
-abstract class AbstractController[T] extends Controller {
+abstract class AbstractController[T <: WithId] extends Controller {
 
     val repository: AbstractMongoRepository[T]
     implicit lazy val format: Format[T] = repository.format
@@ -42,9 +44,15 @@ abstract class AbstractController[T] extends Controller {
                 }
         }
 
-    def create(): Action[JsValue] = ModelEndpoint {
-        model =>
-            repository.create(model).map { x => Ok(Json.toJson(x)) }
+    def create(): Action[JsValue] = Action.async(BodyParsers.parse.json) {
+        request => {
+            val model = request.body.as[JsValue].validate[T]
+            model.map(
+                internalModel => repository.create(internalModel).map {
+                    x => Created(toWeb(Json.toJson(x))).withHeaders( "location" -> (request.path + "/" + x._id) )
+                }
+            ).getOrElse(Future.successful(BadRequest("invalid json")))
+        }
     }
 
     def delete(): Action[JsValue] = ModelEndpoint {
@@ -70,21 +78,45 @@ abstract class AbstractController[T] extends Controller {
         }
         requestJson
     }
+    
+    def toWeb(js: JsValue): JsValue = {
+        val picId = js.transform((__ \ '_id \ '$oid).json.pick).get
+        
+        val tr = (__ \ '_id).json.update(
+        __.read[JsValue].map { v => picId })
+        
+        return js.transform(tr).get
+    }
+    
+    /*
+     def fromWeb(js: JsValue): JsValue = {
+        val tr = (__ \ '_id).json.update(
+        __.read[String].map { v => JsObject(("$oid", JsString(v)) +: Nil) })
+        
+        return js.transform(tr).asOpt match {
+        case Some(js2) => js2
+        case None => js
+        }
+    }
+    */
 
     def find(offset: Int, limit: Int) = Action.async {
         request =>
-            
-            var requestJson = requestParamsToJsObject(request)
-            
+            var requestJsObject = requestParamsToJsObject(request)
             implicit val pagingFormat = PagingJsonModel.format
             implicit val pageResponseFormat = PageResponseJsonModel.format
             for {
-                items <- repository.find(requestJson, offset, limit)
+                items <- repository.find(requestJsObject, offset, limit)
                 total <- repository.count(Some(Json.obj()))
             } yield {
                 var paging = new Paging(offset, limit, total)
-                Ok(Json.toJson(PageResponse(items.map(x => Json.toJson(x)), paging)))
+                Ok(Json.toJson(PageResponse(items.map(x => toWeb(Json.toJson(x))), paging)))
             }
+    }
+    
+    def findById(id: String) = Action.async {
+        request =>
+            repository.getById(Json.obj("_id" -> Json.obj("$oid" -> id))).map { x => Ok(toWeb(Json.toJson(x))) }
     }
 
 }
