@@ -62,7 +62,7 @@ Para parar el contenedor `docker stop play-mongo`, y para eliminarlo `docker rm 
 
 Se basa en la imagen `beevelop/java:latest`.
 
-1) `./activator dist` (desde la ruta del proyecto).
+1) `./activator clean dist` (desde la ruta del proyecto).
 
 2) `unzip ./target/universal/arqsof2-tp-*.zip`
 
