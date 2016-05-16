@@ -43,13 +43,15 @@ abstract class AbstractController[T <: WithId] extends Controller {
                     model.map(block).getOrElse(Future.successful(BadRequest("invalid json")))
                 }
         }
+    
+    def getModelPath(model: T, path: String) : String = ( path + "/" + (Json.toJson(model._id) \ "$oid").as[String] ) 
 
     def create(): Action[JsValue] = Action.async(BodyParsers.parse.json) {
         request => {
             val model = request.body.as[JsValue].validate[T]
             model.map(
                 internalModel => repository.create(internalModel).map {
-                    x => Created(toWeb(Json.toJson(x))).withHeaders( "location" -> (request.path + "/" + x._id) )
+                    x => Created(toWeb(Json.toJson(x))).withHeaders( "location" -> getModelPath(x, request.path) )
                 }
             ).getOrElse(Future.successful(BadRequest("invalid json")))
         }
@@ -82,10 +84,15 @@ abstract class AbstractController[T <: WithId] extends Controller {
     def toWeb(js: JsValue): JsValue = {
         val picId = js.transform((__ \ '_id \ '$oid).json.pick).get
         
-        val tr = (__ \ '_id).json.update(
-        __.read[JsValue].map { v => picId })
+        val changedJs = js.transform(
+            (__).json.update(
+                __.read[JsObject].map{ o => o ++ Json.obj( "id" -> picId ) } 
+            )
+        ).get
         
-        return js.transform(tr).get
+        val erasedJs = changedJs.transform((__ \ '_id).json.prune).get
+        
+        return erasedJs 
     }
     
     /*
