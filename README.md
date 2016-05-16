@@ -62,13 +62,21 @@ Para parar el contenedor `docker stop play-mongo`, y para eliminarlo `docker rm 
 
 Se basa en la imagen `beevelop/java:latest`.
 
-1) `./activator dist` (desde la ruta del proyecto).
+1) `./activator clean dist` (desde la ruta del proyecto).
 
 2) `unzip ./target/universal/arqsof2-tp-*.zip`
 
 3) `rm -rf ./target/build-dev && mv arqsof2-tp-*/ ./target/build-dev/`
 
 4) `docker run -v /home/vm/Escritorio/arqsoft2-tp/target/build-dev:/opt/app -p 9000:9000 --name play-server --link play-mongo:mongo --rm beevelop/java:latest /opt/app/bin/arqsof2-tp -Dconfig.resource=application-docker.conf`
+
+### Con agente de New Relic
+
+Tener el agente de New Relic para Java 8 en la carpeta `newrelic` en el root del proyecto.
+
+Mismos pasos que item anterior sólo que correr el punto 4) en el comando:
+
+`docker run -v /home/vm/Escritorio/arqsoft2-tp/target/build-dev:/opt/app -v /home/vm/Escritorio/arqsoft2-tp/newrelic:/opt/newrelic -p 9000:9000 --name play-server --link play-mongo:mongo --rm beevelop/java:latest /opt/app/bin/arqsof2-tp -J-javaagent:/opt/newrelic/newrelic.jar -Dnewrelic.config.file=./opt/newrelic/newrelic.yml -Dconfig.resource=application-docker.conf`
 
 ## Ambiente de desarrollo
 
