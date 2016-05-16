@@ -8,7 +8,7 @@ import traits.WithId
 
 case class Product(
     _id: Option[BSONObjectID],
-	product_id: String,
+	product_id: Long,
     name: Option[String]
 ) extends WithId
   

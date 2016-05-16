@@ -12,7 +12,7 @@ case class Paging (
 
 case class PageResponse (
    items: List[JsValue],
-   links: Paging
+   paging: Paging
 )
 
 object PagingJsonModel extends JsonModel[Paging] {

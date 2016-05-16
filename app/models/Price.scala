@@ -6,14 +6,15 @@ import reactivemongo.play.json.BSONFormats._
 import play.api.libs.json._
 import org.joda.time.DateTime
 import traits.WithId
+import java.util.Date
 
 case class Price(
     _id: Option[BSONObjectID],
-	product_id : String,
+	product_id : Long,
 	product : Option[Product],
-	shop_id: BSONObjectID,
+	shop_id: Option[BSONObjectID],
 	shop: Option[Shop],
-	datetime: Option[DateTime],
+	datetime: Option[Date],
 	price: Double
 ) extends WithId
   

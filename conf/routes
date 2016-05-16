@@ -6,17 +6,19 @@
 GET    /               controllers.Application.index
 
 # Shop Resource
-POST   /shops          app.controllers.ShopController.create()
-GET    /shops          app.controllers.ShopController.find(offset: Int ?= 1, limit: Int ?= 20)
-GET    /shops/:id          app.controllers.ShopController.findById(id: String)
+POST   /shops          		app.controllers.ShopController.create()
+GET    /shops          		app.controllers.ShopController.find(offset: Int ?= 1, limit: Int ?= 20)
+GET    /shops/:id      		app.controllers.ShopController.findById(id: String)
 
 # Product Resource
-POST   /products       app.controllers.ProductController.create()
-GET    /products       app.controllers.ProductController.find(offset: Int ?= 1, limit: Int ?= 20)
+POST   /products       		app.controllers.ProductController.create()
+GET    /products       		app.controllers.ProductController.find(offset: Int ?= 1, limit: Int ?= 20)
+GET    /products/:id      	app.controllers.ProductController.findById(id: String)
 
 # Price Resource
-POST   /found_prices       app.controllers.PriceController.create()
-GET    /found_prices       app.controllers.PriceController.find(offset: Int ?= 1, limit: Int ?= 20)
+POST   /found_prices   		app.controllers.PriceController.create()
+GET    /found_prices   		app.controllers.PriceController.find(offset: Int ?= 1, limit: Int ?= 20)
+GET    /found_prices/:id    app.controllers.PriceController.findById(id: String)
 
 # Map static resources from the /public folder to the /assets URL path
 GET    /assets/*file   controllers.Assets.versioned(path="/public", file: Asset)
