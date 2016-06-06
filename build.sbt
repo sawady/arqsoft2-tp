@@ -19,7 +19,8 @@ libraryDependencies ++= Seq(
   cache,
   ws,
   specs2 % Test,
-  "org.reactivemongo" %% "play2-reactivemongo" % "0.11.10"
+  "org.reactivemongo" %% "play2-reactivemongo" % "0.11.10",
+  "io.gatling.highcharts" % "gatling-charts-highcharts" % "2.2.1"
 )
 
 resolvers += "scalaz-bintray" at "http://dl.bintray.com/scalaz/releases"
