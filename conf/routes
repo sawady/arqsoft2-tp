@@ -19,9 +19,9 @@ GET    /api/v1/products                              app.controllers.ProductCont
 GET    /api/v1/products/:id                          app.controllers.ProductController.findById(id: String)
 
 # Price Resource
-POST   /api/v1/found_prices                          app.controllers.PriceController.create()
-GET    /api/v1/found_prices                          app.controllers.PriceController.find(offset: Int ?= 1, limit: Int ?= 20)
-GET    /api/v1/found_prices/:id                      app.controllers.PriceController.findById(id: String)
+POST   /api/v1/found-prices                          app.controllers.PriceController.create()
+GET    /api/v1/found-prices                          app.controllers.PriceController.find(offset: Int ?= 1, limit: Int ?= 20)
+GET    /api/v1/found-prices/:id                      app.controllers.PriceController.findById(id: String)
 
 # Map static resources from the /public folder to the /assets URL path
 GET    /assets/*file                                 controllers.Assets.versioned(path="/public", file: Asset)

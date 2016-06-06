@@ -36,7 +36,7 @@ abstract class AbstractMongoRepository[T](val reactiveMongoApi: ReactiveMongoApi
     val o: JsObject = Json.toJson(data).as[JsObject] ++ idObject 
     for {
         _ <- collection.insert(o).map(lastError => {
-            Logger.info("Mongo LastError: %s".format(lastError))
+            //Logger.info("Mongo LastError: %s".format(lastError))
         })
         res <- collection.find(idObject).cursor[T](ReadPreference.Primary).headOption
     }
@@ -46,7 +46,7 @@ abstract class AbstractMongoRepository[T](val reactiveMongoApi: ReactiveMongoApi
   def delete(data: T)(implicit ec: ExecutionContext): Future[T] = {
     val o: JsObject = Json.toJson(data).as[JsObject]
     collection.remove(o).map(lastError => {
-      Logger.info("Mongo LastError: %s".format(lastError))
+      //Logger.info("Mongo LastError: %s".format(lastError))
       data
     })
   }

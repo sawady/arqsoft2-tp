@@ -10,9 +10,9 @@ import java.util.Date
 
 case class Price(
     _id: Option[BSONObjectID],
-	product_id : Long,
+	product_id : String,
 	product : Option[Product],
-	shop_id: Option[BSONObjectID],
+	shop_id: String,
 	shop: Option[Shop],
 	datetime: Option[Date],
 	price: Double
