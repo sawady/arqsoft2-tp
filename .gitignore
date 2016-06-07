@@ -10,3 +10,5 @@ target
 .cache-tests
 bin/
 newrelic/
+gatling/results/*
+gatling/target
