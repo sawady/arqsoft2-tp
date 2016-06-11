@@ -51,11 +51,14 @@ En Heroku no estamos usando esto, porque ya trae un contenedor que permite deplo
 
 La base de datos con mongo corre en su propio contenedor. Primero ejecutar esto antes de correr el contenedor de play.
 
+Se debe tener un directorio en el host, para que la base de datos persista aunque matemos el contenedor de mongo. Ejemplo:
+`/home/vm/mongo/data`. Reemplazar esto en el paso 2) con tu directorio particular.
+
 Armarlo con los siguientes pasos:
 
 1) `docker pull mongo`
 
-2) `docker run --name play-mongo -d mongo`
+2) `docker run --name play-mongo -d mongo -v /home/vm/mongo/data:/data/db`
 
 Para parar el contenedor `docker stop play-mongo`, y para eliminarlo `docker rm play-mongo`.
 
@@ -68,6 +71,8 @@ Se basa en la imagen `beevelop/java:latest`.
 2) `unzip ./target/universal/arqsof2-tp-*.zip`
 
 3) `rm -rf ./target/build-dev && mv arqsof2-tp-*/ ./target/build-dev/`
+
+Debemos dar la ruta absoluta al proyecto cuando instanciamos el server. Por lo tanto cambiar `/home/vm/Escritorio/arqsoft2-tp` por tu ruta particular.
 
 4) `docker run -v /home/vm/Escritorio/arqsoft2-tp/target/build-dev:/opt/app -p 9000:9000 --name play-server --link play-mongo:mongo -h server.play --rm beevelop/java:latest /opt/app/bin/arqsof2-tp -Dconfig.resource=application-docker.conf`
 
