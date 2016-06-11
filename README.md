@@ -58,7 +58,7 @@ Armarlo con los siguientes pasos:
 
 1) `docker pull mongo`
 
-2) `docker run --name play-mongo -d mongo -v /home/vm/mongo/data:/data/db`
+2) `docker run -v /home/vm/mongo/data:/data/db --name play-mongo -d mongo`
 
 Para parar el contenedor `docker stop play-mongo`, y para eliminarlo `docker rm play-mongo`.
 
