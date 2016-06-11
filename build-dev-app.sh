@@ -1,6 +1,6 @@
 #!/bin/bash
 
-./activator dist
+./activator clean dist
 
 unzip ./target/universal/arqsof2-tp-*.zip
 
