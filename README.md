@@ -98,6 +98,8 @@ El script `run-mongo-docker.sh` levanta 3 contenedores mongo. Luego de ejecutar 
   - `rs.add("mongo2.play.com")`
   - `rs.add("mongo3.play.com")`
 
+Si se quiere leer de las replicas se debe acceder a ellas y ejecutar `rs.slaveOk()`.
+
 5) Confirmar la configuración exitosa con `rs.status()`. Deberás ver como miembros del conjunto de réplicas `rs0` a dichos nodos, donde uno es el `primary` y los demás son `secondary`.
 
 ## Ambiente de desarrollo
