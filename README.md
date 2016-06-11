@@ -84,6 +84,24 @@ Mismos pasos que item anterior sólo que correr el punto 4) en el comando:
 
 `docker run -v /home/vm/Escritorio/arqsoft2-tp/target/build-dev:/opt/app -v /home/vm/Escritorio/arqsoft2-tp/newrelic:/opt/newrelic -p 9000:9000 --name play-server --link play-mongo:mongo -h server.play --rm beevelop/java:latest /opt/app/bin/arqsof2-tp -J-javaagent:/opt/newrelic/newrelic.jar -Dnewrelic.config.file=./opt/newrelic/newrelic.yml -Dconfig.resource=application-docker.conf`
 
+### Con Replica Set
+
+El script `run-mongo-docker.sh` levanta 3 contenedores mongo. Luego de ejecutar ese script:
+
+1) Conectarse al contenedor `play-mongo` con `docker exec -it play-mongo /bin/bash`
+
+2) Ejecutar `mongo` para entrar a la consola de mongo.
+
+3) `rs.initiate` para iniciar la configuración de réplica. Va a iniciarse como la réplica `rs0`. Y este nodo comenzará como primario.
+
+4) Añadir a los demás nodos:
+  - `rs.add("mongo2.play.com")`
+  - `rs.add("mongo3.play.com")`
+
+Si se quiere leer desde un nodo secundario, se debe acceder a estos y ejecutar `rs.slaveOk()`.
+
+5) Confirmar la configuración exitosa con `rs.status()`. Deberás ver como miembros del conjunto de réplicas `rs0` a dichos nodos, donde uno es el `primary` y los demás son `secondary`.
+
 ## Ambiente de desarrollo
 
 Estamos utilizando el Scala IDE 4.4.0, JDK 8 y MongoDB 3.0.
