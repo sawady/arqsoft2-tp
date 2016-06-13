@@ -60,7 +60,7 @@ class UserLikeSimulation extends Simulation {
         .feed(pricesFeeder)
 
         .exec(http("Post Prices")
-          .post(apiVersion + "found_prices")
+          .post(apiVersion + "found-prices")
           .headers(headersApi)
           .body(StringBody("""{
             "product_id": "${product_id}",
