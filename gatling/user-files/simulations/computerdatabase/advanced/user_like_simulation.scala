@@ -87,8 +87,14 @@ class UserLikeSimulation extends Simulation {
   setUp(
     products.inject(atOnceUsers(5)),
     shops.inject(atOnceUsers(2)),
-    prices.inject(rampUsers(3) over (3 seconds))
+    prices.inject(nothingFor(15 seconds), rampUsers(3000) over (10 seconds))
   ).protocols(httpConf)
+
+  /*setUp(
+    scn.users(5).ramp(10).protocolConfig(httpConf),
+    otherScn.users(5).ramp(20).protocolConfig(httpConf)
+  )*/
+
   //setUp(products.inject(rampUsers(10) over (10 seconds))).protocols(httpConf)
 
 
