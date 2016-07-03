@@ -1,0 +1,10 @@
+{
+  "simulation": "computerdatabase.advanced.UserLikeSimulation",
+  "simulationId": "Caso2A",
+  "start": 1467497786158,
+  "description": "Desempeño de un nodo virtual de aplicación con 1 CPU; y 2 nodos de BD en réplica",
+  "scenarios": ["Products Store", "Shops Store", "Prices Store"],
+  "assertions": [
+
+  ]
+}
