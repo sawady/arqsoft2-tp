@@ -6,10 +6,9 @@ Cada prueba hizo los siguientes pasos:
 
 - Inserción de 2 Shops.
 - Inserción de 5 Products.
-- Pedido de un Shop al azar e Inserción de un Prize durante 10 minutos, con una rampa desde 10 hasta 200 usuarios concurrentes.
+- Pedido de un Shop al azar e Inserción de un Price durante 10 minutos, con una rampa desde 10 hasta 200 usuarios concurrentes.
 
 Antes de empezar cada prueba, nos aeguramos de que la Base de Datos estuviera completamente vacía.
-
 
 ## I) Casos de prueba de stress:
 
