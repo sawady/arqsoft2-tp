@@ -82,12 +82,20 @@ class UserLikeSimulation extends Simulation {
 
   val products = scenario("Products Store").exec(ProductsStore.store)
   val shops = scenario("Shops Store").exec(ShopsStore.store)
-  val prices = scenario("Prices Store").exec(PricesStore.store)
+  val rampPrices = scenario("Prices Store - Ramp").exec(PricesStore.store)
+  val constantPrices = scenario("Prices Store - Constant").exec(PricesStore.store)
   
   setUp(
     products.inject(atOnceUsers(5)),
     shops.inject(atOnceUsers(2)),
-    prices.inject(nothingFor(15 seconds), rampUsersPerSec(10) to 200 during(10 minutes))
+    rampPrices.inject(
+      nothingFor(15 seconds), 
+      rampUsersPerSec(10) to 150 during(1 minutes)
+    ),
+    constantPrices.inject(
+      nothingFor(75 seconds),
+      constantUsersPerSec(150) during(3 minutes)
+    )
   ).protocols(httpConf)
 
   /*setUp(
