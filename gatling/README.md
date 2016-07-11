@@ -27,16 +27,6 @@ Se realizaron 2 tipos de pruebas:
 
 En ambas hubo un funcionamiento satisfactorio. Todos los pedidos son respondidos sin errores y en menos de 800 ms.
 
-Se añadieron luego otras pruebas, con una rampa de 3 min hasta 100 usuarios, y luego una presión constante de otros 3 minutos, con esos mismos usuarios pidiendo precios.
-
-Los resultados fueron los siguientes, donde medidos uso de memoria y cpu:
-1) [New Relic](https://rpm.newrelic.com/accounts/1142474/servers/19633973/processes?tw%5Bend%5D=1468199823&tw%5Bstart%5D=1468199183#id=5b2250726f6365737353616d706c65732f726f6f742f6a617661222c22225d)
-
-2) [New Relic](https://rpm.newrelic.com/accounts/1142474/servers/19633973?tw%5Bend%5D=1468199823&tw%5Bstart%5D=1468199183)
-
-Pasamos a probar qué pasaba con 150 usuarios en lugar de 100. Los resultados fueron los siguientes:
-[New Relic](https://rpm.newrelic.com/accounts/1142474/servers/19633973/processes?tw%5Bend%5D=1468202790&tw%5Bstart%5D=1468202245#id=5b2250726f6365737353616d706c65732f726f6f742f6a617661222c22225d)
-
 #### Caso 1B: Desempeño de un nodo virtual de aplicación con 2 CPU; y 1 nodo de BD
 
 Se realizaron 3 tipos de pruebas:
@@ -64,19 +54,6 @@ Se realizaron 3 tipos de pruebas:
 En todas las pruebas hubo un funcionamiento satisfactorio. Todos los pedidos son respondidos sin errores y en menos de 800 ms.
 
 Aclaración: Aunque los tiempos de respuesta fueron buenos, notamos que fueron 4 veces más lentos que la prueba del Caso 1A, y creemos que esto se debe a que al utilizar 2 CPUs en el servidor de Play, terminan compitiendo la Base de Datos y el Servidor por una de las CPU, haciendolo un poco más lento.
-
-Luego hicimos pruebas que incluyen consumo de cpu y memoria, y una rampa para luego hacer presión constante.
-
-Resultado con 150 usuarios por segundo, haciendo 2 request cada uno:
-[New Relic 1](https://rpm.newrelic.com/accounts/1142474/servers/19633973?tw%5Bend%5D=1468204034&tw%5Bstart%5D=1468203190)
-
-Resultado con 200 usuarios, haciendo 2 request cada uno:
-[New Relic 1](https://rpm.newrelic.com/accounts/1142474/servers/19633973?tw%5Bend%5D=1468205079&tw%5Bstart%5D=1468204349)
-
-Probamos también aumentar la presión a 7 minutos, con 200 usuarios por segundo haciendo 2 request cada uno:
-[New Relic 1](https://rpm.newrelic.com/accounts/1142474/servers/19633973?tw%5Bend%5D=1468206413&tw%5Bstart%5D=1468205432)
-
-En esta prueba concluimos que la estabilidad del servidor con 2 nucleos es superior a la prueba que utiliza sólo un núcleo.
 
 #### Caso 2A: Desempeño de un nodo virtual de aplicación con 1 CPU; y 2 nodos de BD en réplica
 
