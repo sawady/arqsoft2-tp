@@ -1,0 +1,10 @@
+{
+  "simulation": "computerdatabase.advanced.UserLikeSimulation",
+  "simulationId": "Caso1B",
+  "start": 1468204555731,
+  "description": "",
+  "scenarios": ["Products Store", "Shops Store", "Prices Store - Ramp"],
+  "assertions": [
+
+  ]
+}

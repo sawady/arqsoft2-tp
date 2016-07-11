@@ -90,11 +90,8 @@ class UserLikeSimulation extends Simulation {
     shops.inject(atOnceUsers(2)),
     rampPrices.inject(
       nothingFor(15 seconds), 
-      rampUsersPerSec(10) to 150 during(3 minutes)
-    ),
-    constantPrices.inject(
-      nothingFor(75 seconds),
-      constantUsersPerSec(150) during(3 minutes)
+      rampUsersPerSec(10) to(200) during(3 minutes),
+      constantUsersPerSec(200) during(10 minutes)
     )
   ).protocols(httpConf)
 

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-docker run --cpuset-cpus="0" -m 1g \
+docker run --cpuset-cpus="0,1" -m 1g \
 -v /home/vm/Escritorio/arqsoft2-tp/target/build-dev:/opt/app \
 -v /home/vm/Escritorio/arqsoft2-tp/newrelic:/opt/newrelic \
 -p 9200:9000 --name play-server --link play-mongo:mongo \
