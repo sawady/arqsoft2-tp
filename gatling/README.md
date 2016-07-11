@@ -1,37 +1,64 @@
-# Tests de Stress
+# Tests de Carga
 
 Todas las pruebas fueron realizadas en una arquitectura dokerizada, utilizando un contenedor para el servidor de Play y un contenedor por cada réplica de Base de Datos. Esto fue levantado utilizando un límite de 1 GB de memoria RAM.
 
-Cada prueba hizo los siguientes pasos:
+Cada prueba empezó con los siguientes pasos:
 
 - Inserción de 2 Shops.
 - Inserción de 5 Products.
-- Pedido de un Shop al azar e Inserción de un Price durante 10 minutos, con una rampa desde 10 hasta 200 usuarios concurrentes.
 
-Antes de empezar cada prueba, nos aeguramos de que la Base de Datos estuviera completamente vacía.
+Antes de empezar cada prueba, nos aseguramos de que la Base de Datos estuviera completamente vacía.
 
 ## I) Casos de prueba de stress:
 
 #### Caso 1A: Desempeño de un nodo virtual de aplicación con 1 CPU; y 1 nodo de BD
 
-Funcionamiento satisfactorio. Todos los pedidos son respondidos sin errores y en menos de 800 ms.
+Se realizaron 2 tipos de pruebas:
+
+- Pedido de un Shop al azar e Inserción de un Price durante 3 minutos, con una rampa desde 10 hasta 100 usuarios concurrentes y luego 3 minutos más de pedidos constantes de 100 usuarios.
+
+- Pedido de un Shop al azar e Inserción de un Price durante 3 minutos, con una rampa desde 10 hasta 150 usuarios concurrentes y luego 3 minutos más de pedidos constantes de 150 usuarios.
+
+En ambas hubo un funcionamiento satisfactorio. Todos los pedidos son respondidos sin errores y en menos de 800 ms.
 
 #### Caso 1B: Desempeño de un nodo virtual de aplicación con 2 CPU; y 1 nodo de BD
 
-Funcionamiento satisfactorio. Todos los pedidos son respondidos sin errores y en menos de 800 ms.
+Se realizaron 3 tipos de pruebas:
+
+- Pedido de un Shop al azar e Inserción de un Price durante 3 minutos, con una rampa desde 10 hasta 150 usuarios concurrentes y luego 3 minutos más de pedidos constantes de 150 usuarios.
+
+- Pedido de un Shop al azar e Inserción de un Price durante 3 minutos, con una rampa desde 10 hasta 200 usuarios concurrentes y luego 3 minutos más de pedidos constantes de 200 usuarios.
+
+- Pedido de un Shop al azar e Inserción de un Price durante 3 minutos, con una rampa desde 10 hasta 200 usuarios concurrentes y luego 7 minutos más de pedidos constantes de 200 usuarios.
+
+En todas las pruebas hubo un funcionamiento satisfactorio. Todos los pedidos son respondidos sin errores y en menos de 800 ms.
 
 Aclaración: Aunque los tiempos de respuesta fueron buenos, notamos que fueron 4 veces más lentos que la prueba del Caso 1A, y creemos que esto se debe a que al utilizar 2 CPUs en el servidor de Play, terminan compitiendo la Base de Datos y el Servidor por una de las CPU, haciendolo un poco más lento.
 
 #### Caso 2A: Desempeño de un nodo virtual de aplicación con 1 CPU; y 2 nodos de BD en réplica
 
+La prueba utilizó la siguiente configuración de pedidos:
+
+- Pedido de un Shop al azar e Inserción de un Price durante 10 minutos, con una rampa desde 10 hasta 200 usuarios concurrentes.
+
 Funcionamiento satisfactorio. La gran mayoría de los pedidos son respondidos en menos de 800 ms, solo un pequeño porcentaje tarda más de 800 ms, y no hubo errores.
 
 #### Caso 2B: Desempeño de un nodo virtual de aplicación con 1 CPU; y 3 nodos de BD en réplica
+
+La prueba utilizó la siguiente configuración de pedidos:
+
+- Pedido de un Shop al azar e Inserción de un Price durante 10 minutos, con una rampa desde 10 hasta 200 usuarios concurrentes.
+
 
 Funcionamiento satisfactorio. La gran mayoría de los pedidos son respondidos en menos de 800 ms, aunque un %10 de los pedidos son respondidos en más de 1200 ms. Creemos que ésto se debe a que hay más nodos para replicar la información en la Base de Datos.
 
 
 ## II) Casos de desempeño de Tolerancia a Fallos y Alta Disponibilidad:
+
+La pruebas utilizaron la siguiente configuración de pedidos:
+
+- Pedido de un Shop al azar e Inserción de un Price durante 10 minutos, con una rampa desde 10 hasta 200 usuarios concurrentes.
+
 
 #### Caso 3A: Desempeño de un nodo virtual de aplicación con 1 CPU; y 3 nodos de BD en réplica, eliminando un nodo Slave durante el tope de carga
 
