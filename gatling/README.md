@@ -17,7 +17,13 @@ Se realizaron 2 tipos de pruebas:
 
 - Pedido de un Shop al azar e Inserción de un Price durante 3 minutos, con una rampa desde 10 hasta 100 usuarios concurrentes y luego 3 minutos más de pedidos constantes de 100 usuarios.
 
+[New Relic 1](https://rpm.newrelic.com/accounts/1142474/servers/19633973?tw%5Bend%5D=1468199823&tw%5Bstart%5D=1468199183)
+
+[New Relic 2](https://rpm.newrelic.com/accounts/1142474/servers/19633973/processes?tw%5Bend%5D=1468199823&tw%5Bstart%5D=1468199183#id=5b2250726f6365737353616d706c65732f726f6f742f6a617661222c22225d)
+
 - Pedido de un Shop al azar e Inserción de un Price durante 3 minutos, con una rampa desde 10 hasta 150 usuarios concurrentes y luego 3 minutos más de pedidos constantes de 150 usuarios.
+
+[New Relic](https://rpm.newrelic.com/accounts/1142474/servers/19633973/processes?tw%5Bend%5D=1468202790&tw%5Bstart%5D=1468202245#id=5b2250726f6365737353616d706c65732f726f6f742f6a617661222c22225d)
 
 En ambas hubo un funcionamiento satisfactorio. Todos los pedidos son respondidos sin errores y en menos de 800 ms.
 
@@ -27,9 +33,23 @@ Se realizaron 3 tipos de pruebas:
 
 - Pedido de un Shop al azar e Inserción de un Price durante 3 minutos, con una rampa desde 10 hasta 150 usuarios concurrentes y luego 3 minutos más de pedidos constantes de 150 usuarios.
 
+[New Relic 1](https://rpm.newrelic.com/accounts/1142474/servers/19633973?tw%5Bend%5D=1468204034&tw%5Bstart%5D=1468203190)
+
+[New Relic 2](https://rpm.newrelic.com/accounts/1142474/servers/19633973/processes?tw%5Bend%5D=1468204034&tw%5Bstart%5D=1468203190#id=5b2250726f6365737353616d706c65732f726f6f742f6a617661222c22225d)
+
+[New Relic 3](https://rpm.newrelic.com/accounts/1142474/applications/17294755?tw%5Bend%5D=1468204098&tw%5Bstart%5D=1468203463)
+
 - Pedido de un Shop al azar e Inserción de un Price durante 3 minutos, con una rampa desde 10 hasta 200 usuarios concurrentes y luego 3 minutos más de pedidos constantes de 200 usuarios.
 
+[New Relic 1](https://rpm.newrelic.com/accounts/1142474/servers/19633973?tw%5Bend%5D=1468205079&tw%5Bstart%5D=1468204349)
+
+[New Relic 2](https://rpm.newrelic.com/accounts/1142474/servers/19633973/processes?tw%5Bend%5D=1468205079&tw%5Bstart%5D=1468204349#id=5b2250726f6365737353616d706c65732f726f6f742f6a617661222c22225d)
+
 - Pedido de un Shop al azar e Inserción de un Price durante 3 minutos, con una rampa desde 10 hasta 200 usuarios concurrentes y luego 7 minutos más de pedidos constantes de 200 usuarios.
+
+[New Relic 1](https://rpm.newrelic.com/accounts/1142474/servers/19633973?tw%5Bend%5D=1468206413&tw%5Bstart%5D=1468205432)
+
+[New Relic 2](https://rpm.newrelic.com/accounts/1142474/applications/17294755?tw%5Bend%5D=1468206424&tw%5Bstart%5D=1468205490)
 
 En todas las pruebas hubo un funcionamiento satisfactorio. Todos los pedidos son respondidos sin errores y en menos de 800 ms.
 
